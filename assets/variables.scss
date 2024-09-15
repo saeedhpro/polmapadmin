@@ -1,0 +1,42 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+//
+// The variables you want to modify
+// $font-size-root: 20px;
+
+$font-family: "IRANSansX";
+$font-style: normal;
+
+$ocean1: #E7EAF5;
+$ocean10: #012879;
+$fire7: #F18900;
+
+$main: #E85C2F;
+$second: #E85C2F;
+$white: #FFFFFF;
+$third: #373737;
+$black: #000000;
+
+$primary-color: #E76D2D;
+$main-background: #E5E5E5;
+
+$orange: #F97B37;
+$orange1: #E76D2D;
+$orange2: #E85C2F;
+$gray1: #F9F9F9;
+$gray3: #6C6C6C;
+$gray4: #E4E4E4;
+$black2: #1A1A1A;
+
+$input-height: 40px;
+
+$border-radius: 10px;
+
+.v-application .error--text {
+  color: #E61F10 !important;
+  caret-color: #E61F10 !important;
+}
+.v-pagination__item {
+  box-shadow: unset !important;
+  background: rgba(231, 109, 45, 0.15);
+  border-radius: 5px;
+}

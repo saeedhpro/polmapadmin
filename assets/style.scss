@@ -145,6 +145,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   z-index: 999999 !important;
+  flex: none !important;
 
   .header-top-box {
     display: flex;
@@ -322,9 +323,8 @@ a {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  width: 180px;
   img {
-    width: 180px;
+    height: 85px;
   }
   .name {
     font-family: $font-family;
@@ -825,6 +825,13 @@ a {
           color: $orange2;
         }
 
+        &.main-btn {
+          span {
+            color: $white;
+            background: $orange1;
+          }
+        }
+
         img {
           margin-right: 14px;
         }
@@ -862,11 +869,19 @@ a {
     &.main-btn {
       color: $white;
       background: $orange1;
+      span {
+        color: $white;
+        background: $orange1;
+      }
     }
 
     &.second-btn {
       background: $white;
       color: $orange1;
+      span {
+        color: $white;
+        background: $orange1;
+      }
     }
   }
 }
@@ -979,4 +994,86 @@ td {
 }
 .Vue-Toastification__container  {
   z-index: 999999999999999999 !important;
+}
+
+.ticket {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #8a8a8a;
+  background-color: #7f7f7f4d;
+  margin-bottom: 20px;
+  .ticket-date {
+    font-weight: bold;
+  }
+  .ticket-title {
+    font-weight: bold;
+  }
+  .ticket-description {
+
+  }
+  .ticket-user-profile {
+    border: 1px solid #8a8a8a;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    img {
+      height: 40px;
+    }
+  }
+}
+
+.own-ticket {
+  background-color: #ffffff;
+}
+.answer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  .answer-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    .answer-btn {
+      border-radius: 10px;
+      font-family: $font-family;
+      font-style: normal;
+      font-size: 14px;
+      line-height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 2px solid $orange1;
+      padding: 5px 20px;
+      color: $white;
+      background: $orange1;
+    }
+  }
+  .answer-description-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 30px;
+    .v-textarea {
+      width: 100%;
+    }
+    input[type=file] {
+      border: 1px solid #8a8a8a;
+    }
+  }
 }

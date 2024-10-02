@@ -2,9 +2,9 @@ require('whatwg-fetch')
 export const state = () => ({
   settings: {
     site_logo: '/main/logo.png',
-    site_name_fa: 'فروشگاه',
-    titleTemplate: 'فروشگاه الیت برد',
-    title: 'فروشگاه الیت برد',
+    site_name_fa: 'پنل ادمین',
+    titleTemplate: 'پنل ادمین',
+    title: 'پنل ادمین',
   }
 })
 

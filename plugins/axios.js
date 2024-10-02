@@ -111,7 +111,7 @@ const setupProgress = (axios, ctx) => {
 
 export default (ctx, inject) => {
   // const baseURL = 'http://localhost:8000/api'
-  const baseURL = 'http://api.eliteboards.ir/api'
+  const baseURL = 'https://api.beautymap.ir/api'
   const token = ctx.$cookies.get('token');
   const headers = {
     common: {

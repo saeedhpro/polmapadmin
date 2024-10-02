@@ -1,6 +1,6 @@
 require('whatwg-fetch')
 export const state = () => ({
-  services: {
+  requests: {
     data: [],
     meta: {
       current_page: 1,
@@ -9,86 +9,88 @@ export const state = () => ({
     per_page: 10,
     total: 1,
   },
-  consultations: {
-    data: [],
-    meta: {
-      current_page: 1,
-      last_page: 1,
-    },
-    per_page: 10,
-    total: 1,
-  },
-  cooperations: {
-    data: [],
-    meta: {
-      current_page: 1,
-      last_page: 1,
-    },
-    per_page: 10,
-    total: 1,
-  },
+  list: [],
+  request: null,
 })
 
 export const mutations = {
-  setServices(state, services) {
-    state.services = services
+  setRequests(state, requests) {
+    state.requests = requests
   },
-  setConsultations(state, consultations) {
-    state.consultations = consultations
+  setRequestsList(state, list) {
+    state.list = list
   },
-  setCooperations(state, cooperations) {
-    state.cooperations = cooperations
+  setRequest(state, request) {
+    state.request = request
   },
 }
 
 export const actions = {
-  getServices(ctx, filter) {
+  getRequest(ctx, id) {
+    return this.$axios.get(`/admin/requests/${data.id}`)
+      .then(res => {
+        const data = res.data
+        ctx.commit('setRequest', data)
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
+  getRequests(ctx, filter) {
     let query = [];
     const filters = Object.entries(filter)
+    let paged = false
     for (let i = 0; i < filters.length; i++) {
-      if(filters[i][1]) {
+      if (filters[i][1]) {
+        if (filters[i][0] === 'page') {
+          paged = true
+        }
         query.push(`${filters[i][0]}=${filters[i][1]}`)
       }
     }
-    return this.$axios.get(`/services/requests?${query.join('&')}`)
+    return this.$axios.get(`/admin/${filter.user_id}/requests?${query.join('&')}`)
       .then(res => {
         const data = res.data
-        ctx.commit('setServices', data)
+        if (paged) {
+          ctx.commit('setRequests', data)
+        } else {
+          ctx.commit('setRequestsList', data.data)
+        }
         return Promise.resolve(res)
       })
       .catch(err => {
         return Promise.reject(err)
       })
   },
-  removeService(ctx, id) {
-    return this.$axios.delete(`/services/requests/${id}`)
-      .then(res => {
-        return Promise.resolve(res)
-      })
-      .catch(err => {
-        return Promise.reject(err)
-      })
-  },
-  getConsultations(ctx, filter) {
+  getAllRequests(ctx, filter) {
     let query = [];
     const filters = Object.entries(filter)
+    let paged = false
     for (let i = 0; i < filters.length; i++) {
-      if(filters[i][1]) {
+      if (filters[i][1]) {
+        if (filters[i][0] === 'page') {
+          paged = true
+        }
         query.push(`${filters[i][0]}=${filters[i][1]}`)
       }
     }
-    return this.$axios.get(`/consultations?${query.join('&')}`)
+    return this.$axios.get(`/admin/requests?${query.join('&')}`)
       .then(res => {
         const data = res.data
-        ctx.commit('setConsultations', data)
+        if (paged) {
+          ctx.commit('setRequests', data)
+        } else {
+          ctx.commit('setRequestsList', data.data)
+        }
         return Promise.resolve(res)
       })
       .catch(err => {
         return Promise.reject(err)
       })
   },
-  removeConsultation(ctx, id) {
-    return this.$axios.delete(`/consultations/${id}`)
+  createRequest(ctx, data) {
+    return this.$axios.post(`/admin/requests`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -96,26 +98,26 @@ export const actions = {
         return Promise.reject(err)
       })
   },
-  getCooperations(ctx, filter) {
-    let query = [];
-    const filters = Object.entries(filter)
-    for (let i = 0; i < filters.length; i++) {
-      if(filters[i][1]) {
-        query.push(`${filters[i][0]}=${filters[i][1]}`)
-      }
-    }
-    return this.$axios.get(`/cooperations/requests?${query.join('&')}`)
+  acceptOrRejectRequest(ctx, data) {
+    return this.$axios.patch(`/admin/requests/${data.id}`, data)
       .then(res => {
-        const data = res.data
-        ctx.commit('setCooperations', data)
         return Promise.resolve(res)
       })
       .catch(err => {
         return Promise.reject(err)
       })
   },
-  removeCooperation(ctx, id) {
-    return this.$axios.delete(`/cooperations/requests/${id}`)
+  updateRequest(ctx, data) {
+    return this.$axios.put(`/admin/requests/${data.id}`, data)
+      .then(res => {
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
+  removeRequest(ctx, data) {
+    return this.$axios.delete(`/admin/requests/${data.id}`)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -126,13 +128,10 @@ export const actions = {
 }
 
 export const getters = {
-  getServices(state) {
-    return state.services
+  getRequests(state) {
+    return state.requests
   },
-  getCooperations(state) {
-    return state.cooperations
-  },
-  getConsultations(state) {
-    return state.consultations
+  getList(state) {
+    return state.list
   },
 }

@@ -12,11 +12,11 @@
                 <span class="account-form-title">لیست کاربران</span>
               </div>
               <div class="action-box">
-                <nuxt-link
-                  to="/panel/users/create"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </nuxt-link>
+<!--                <nuxt-link-->
+<!--                  to="/panel/users/create"-->
+<!--                >-->
+<!--                  <v-icon>mdi-plus</v-icon>-->
+<!--                </nuxt-link>-->
               </div>
             </div>
             <v-divider/>
@@ -31,15 +31,21 @@
                 <template v-slot:body>
                   <tr v-for="(i, n) in users.data" :key="n">
                     <td class="text-center">{{ (filter.page - 1) * 10 + n + 1 | toPersianNumber }}</td>
-                    <td class="text-center">{{ i.full_name | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.phone_number | toPersianNumber }}</td>
-                    <td class="text-center">{{ i.role ? i.role.name : '-' | toPersianNumber }}</td>
-                    <td class="text-center">{{ i.sheba ? i.sheba : '-' | toPersianNumber }}</td>
+                    <td class="text-center">{{ i.full_name ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center dir-ltr">{{ i.email ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center dir-ltr">{{ i.phone_number ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center">{{ i.role ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">
                       {{ i.birth_date ? $moment(i.birth_date).format("jYYYY/jMM/jDD") : '-' | toPersianNumber }}
                     </td>
+                    <td class="text-center">{{ i.portfolios_count ?? '-' | toPersianNumber }}</td>
                     <td class="text-center">
                       <div class="action-box">
+                        <nuxt-link
+                          :to="`/panel/users/${i.id}/portfolios`"
+                        >
+                          <v-icon>mdi-briefcase</v-icon>
+                        </nuxt-link>
                         <nuxt-link
                           :to="`/panel/users/${i.id}`"
                         >
@@ -85,10 +91,11 @@ export default {
       headers: [
         '',
         'نام و نام خانوادگی',
+        'ایمیل',
         'شماره تماس',
         'نقش',
-        'شبا',
         'تاریخ تولد',
+        'تعداد نمونه کار',
         'عملیات',
       ],
       filter: {

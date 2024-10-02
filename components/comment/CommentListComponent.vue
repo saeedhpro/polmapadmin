@@ -10,7 +10,7 @@
       <template v-slot:body>
         <tr v-for="(i, n) in comments.data" :key="n">
           <td class="text-center">{{ (filters.page - 1) * 10 + n + 1 | toPersianNumber }}</td>
-          <td class="text-center">{{ i.user ? i.user.full_name : '-' | toPersianNumber }}</td>
+          <td class="text-center">{{ i.user ? i.user.full_name ? i.user.full_name : i.user.email : '-' | toPersianNumber }}</td>
           <td class="text-center">
             {{ i.commentable ? i.commentable.title : '-' | toPersianNumber }}
           </td>

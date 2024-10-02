@@ -33,8 +33,15 @@
                   <tr v-for="(i, n) in services.data" :key="n">
                     <td class="text-center">{{ (filters.page - 1) * 10 + n + 1 | toPersianNumber }}</td>
                     <td class="text-center">{{ i.title | toPersianNumber }}</td>
+                    <td class="text-center">{{ i.is_active ? 'فعال' : 'غیرفعال'}}</td>
                     <td class="text-center">
                       <div class="action-box">
+                        <v-btn
+                          icon
+                          @click="showServiceChildren(i)"
+                        >
+                          <v-icon>mdi-eye</v-icon>
+                        </v-btn>
                         <v-btn
                           icon
                           @click="toggleShowUpdateService(i)"
@@ -98,6 +105,7 @@ export default {
       headers: [
         '',
         'عنوان',
+        'وضعیت',
         'عملیات',
       ],
       showDelete: false,
@@ -159,6 +167,9 @@ export default {
           this.cancelUpdateService()
         })
     },
+    showServiceChildren(i) {
+      this.$router.push(`/panel/services/${i.id}`)
+    }
   },
   computed: {
     mini() {

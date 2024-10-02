@@ -15,11 +15,11 @@
               cols="12"
             >
               <custom-text-field-component
-                v-model="login.phone_number"
-                :rules="login.rules.phone_number"
-                label="شماره موبایل"
-                type="tel"
-                name="username"
+                v-model="login.email"
+                :rules="login.rules.email"
+                label="ایمیل"
+                type="email"
+                name="email"
               />
             </v-col>
             <v-col
@@ -59,11 +59,12 @@ export default {
   data() {
     return {
       isPassword: true,
+      loading: false,
       login: {
-        phone_number: '',
+        email: '',
         password: '',
         rules: {
-          phone_number: [val => (val || '').length > 0 || 'لطفا شماره موبایل خود را وارد کنید'],
+          email: [val => (val || '').length > 0 || 'لطفا ایمیل خود را وارد کنید'],
           password: [val => (val || '').length > 0 || 'لطفا رمز عبور خود را وارد کنید'],
         }
       },
@@ -74,11 +75,10 @@ export default {
       this.isPassword = !this.isPassword
     },
     doLogin() {
+      this.loading = true
       this.$store.dispatch('login/login', this.login)
-        .then(() => {
-          this.$router.push({
-            path: '/panel'
-          })
+        .then((res) => {
+          this.$router.replace('/panel')
         })
         .catch(err => {
           if(err.response) {
@@ -89,11 +89,12 @@ export default {
             }
           }
         })
+        .finally(() => this.loading = false)
     },
   },
   computed: {
     loginDisabled() {
-      return this.login.phone_number === '' && this.login.password === ''
+      return (this.login.email === '' && this.login.email === '') || this.loading
     },
   }
 }

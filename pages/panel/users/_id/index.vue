@@ -20,7 +20,6 @@
                 v-model="tab"
               >
                 <v-tab><span class="v-tab-title">اطلاعات کاربری</span></v-tab>
-                <v-tab><span class="v-tab-title">سفارشات</span></v-tab>
               </v-tabs>
               <v-tabs-items
                 v-model="tab"
@@ -36,21 +35,7 @@
                         <custom-text-field-component
                           v-model="user.full_name"
                           :rules="user.rules.full_name"
-                          label="نام و نام خانوادگی*"
-                        />
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="4"
-                      >
-                        <custom-auto-complete-component
-                          v-model="user.role_id"
-                          :label="'نقش کاربری*'"
-                          :items="roles"
-                          name="role"
-                          :returnObject="false"
-                          :item-text="'name'"
-                          :item-value="'id'"
+                          label="نام و نام خانوادگی"
                         />
                       </v-col>
                       <v-col
@@ -62,6 +47,22 @@
                           :rules="user.rules.email"
                           label="پست الکترونیک"
                           type="mail"
+                          :disabled="true"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        md="4"
+                      >
+                        <custom-auto-complete-component
+                          v-model="user.roles"
+                          :label="'نقش کاربری*'"
+                          :items="roles"
+                          name="role"
+                          :returnObject="true"
+                          :item-text="'name'"
+                          :item-value="'id'"
+                          :multiple="true"
                         />
                       </v-col>
                       <v-col
@@ -89,38 +90,9 @@
                         cols="12"
                         md="4"
                       >
-                        <custom-date-picker
-                          :label="`تاریخ تولد`"
-                          :initial-value="user.birth_date"
-                          :disable-past="false"
-                          v-model="user.birth_date"
-                        />
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="4"
-                      >
-                        <custom-text-field-component
-                          v-model="user.sheba"
-                          label="شماره شبا برای بازگرداندن وجه"
-                        />
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="4"
-                      >
                         <custom-text-field-component
                           v-model="user.national_code"
                           label="کد ملی"
-                        />
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="4"
-                      >
-                        <custom-text-field-component
-                          v-model="user.job"
-                          label="شغل"
                         />
                       </v-col>
                     </v-row>
@@ -129,16 +101,14 @@
                         cols="12"
                       >
                         <div class="account-form-action-box">
-                          <button class="account-form-action main-btn" @click="updateUser">ویرایش</button>
+                          <button class="account-form-action main-btn" @click="updateUser">
+                            <loading v-if="loading"/>
+                            <span v-else>ویرایش</span>
+                          </button>
                         </div>
                       </v-col>
                     </v-row>
                   </div>
-                </v-tab-item>
-                <v-tab-item>
-                  <user-orders-list-component
-                    :user-id="user.id"
-                  />
                 </v-tab-item>
               </v-tabs-items>
             </div>
@@ -161,6 +131,7 @@ export default {
   layout: "panel",
   data() {
     return {
+      loading: false,
       tab: 0,
       user: {
         id: 0,
@@ -171,37 +142,39 @@ export default {
         birth_date: '',
         sheba: '',
         national_code: '',
-        job: '',
-        is_legal: false,
-        role_id: null,
+        roles: null,
         rules: {
-          full_name: [val => (val || '').length > 0 || 'لطفا نام و نام خانوادگی کاربر را وارد کنید'],
           email: [val => (val || '').length > 0 || 'لطفا پست الکترونیک کاربر را وارد کنید'],
-          phone_number: [val => (val || '').length > 0 || 'لطفا شماره تلفن همراه کاربر را وارد کنید'],
-          password: [val => (val || '').length > 0 || 'لطفا پسورد کاربر را وارد کنید'],
         }
       },
       roles: [
         {
-          id: 1,
-          name: 'ادمین'
+          id: 'admin',
+          name: 'ادمین',
         },
         {
-          id: 2,
-          name: 'مشتری'
+          id: 'marketer',
+          name: 'بازاریاب'
         }
       ]
     }
   },
   mounted() {
     this.getUser()
+    this.getRoles()
   },
   methods: {
     getUser() {
       this.$store.dispatch('user/getUser', this.$route.params.id)
         .then(res => {
-          const user = res.data.data
+          const user = res.data
           this.setUser(user)
+        })
+    },
+    getRoles() {
+      this.$store.dispatch('user/getRoles')
+        .then(res => {
+          this.roles = res.data
         })
     },
     setUser(user) {
@@ -212,20 +185,20 @@ export default {
         phone_number: user.phone_number,
         password: '',
         birth_date: user.birth_date,
-        sheba: user.sheba,
         national_code: user.national_code,
-        job: user.job,
-        is_legal: user.is_legal,
-        role_id: user.role ? user.role.id : null,
+        roles: user.roles,
         rules: {
-          full_name: [val => (val || '').length > 0 || 'لطفا نام و نام خانوادگی کاربر را وارد کنید'],
           email: [val => (val || '').length > 0 || 'لطفا پست الکترونیک کاربر را وارد کنید'],
-          phone_number: [val => (val || '').length > 0 || 'لطفا شماره تلفن همراه کاربر را وارد کنید'],
         }
       }
     },
     updateUser() {
-      this.$store.dispatch('user/updateUser', this.user)
+      this.loading = true
+      const data = {
+        ...this.user,
+        roles: this.user.roles.map(i => i.name)
+      }
+      this.$store.dispatch('user/updateUser', data)
         .then(res => {
           this.$toast.success('با موفقیت ثبت شد')
           this.$router.push('/panel/users')
@@ -237,6 +210,9 @@ export default {
               this.$toast.error(errors[e][0])
             }
           }
+        })
+        .finally(() => {
+          this.loading = false
         })
     }
   },

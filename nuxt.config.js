@@ -93,7 +93,7 @@ export default {
   build: {
   },
   server: {
-	  port: 5000,
+	  port: 5001,
   },
   env: {
     ckeditorBaseURL: process.env.CKEDITOR_BASE_URL || ''

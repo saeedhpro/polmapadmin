@@ -15,12 +15,15 @@ export const mutations = {
 
 export const actions = {
   login(ctx, data) {
-    return this.$axios.post('/login', data)
+    return this.$axios.post('/admin/login', data)
       .then(res => {
         const data = res.data.data;
         ctx.commit('setToken', data.token)
         ctx.commit('setUser', data)
-        this.$cookies.set('token', data.token)
+        this.$cookies.set('token', data.token, {
+          path: '/',
+          maxAge: 60 * 60 * 24 * 30
+        })
         this.$axios.setHeader('Authorization', `Bearer ${data.token}`)
         return Promise.resolve(res)
       })

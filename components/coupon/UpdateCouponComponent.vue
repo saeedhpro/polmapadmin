@@ -124,12 +124,6 @@
           <v-col
             cols="12"
           >
-            <editor-component
-              placeholder="توضیحات"
-              class="small"
-              v-model="coupon.description"
-              v-if="!loading"
-            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -179,7 +173,6 @@
 <script>
 import CustomAutoCompleteComponent from "~/components/form/CustomAutoCompleteComponent";
 import CustomTextFieldComponent from "~/components/form/CustomTextFieldComponent";
-import EditorComponent from "~/components/editor/EditorComponent";
 import CustomToggleComponent from "~/components/form/CustomToggleComponent";
 import CustomDatePicker from "~/components/form/CustomDatePicker";
 import CustomPriceFieldComponent from "~/components/form/CustomPriceFieldComponent";
@@ -189,7 +182,7 @@ export default {
   components: {
     CustomPriceFieldComponent,
     CustomDatePicker,
-    CustomToggleComponent, EditorComponent, CustomTextFieldComponent, CustomAutoCompleteComponent},
+    CustomToggleComponent,  CustomTextFieldComponent, CustomAutoCompleteComponent},
   props: {
     open: {
       type: Boolean,

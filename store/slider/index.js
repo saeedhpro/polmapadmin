@@ -9,40 +9,51 @@ export const state = () => ({
     per_page: 10,
     total: 1,
   },
-  list: [],
   slider: null,
 })
 
 export const mutations = {
+  setSlider(state, slider) {
+    state.slider = slider
+  },
   setSliders(state, sliders) {
     state.sliders = sliders
-  },
-  setSlidersList(state, list) {
-    state.list = list
-  },
+  }
 }
 
 export const actions = {
+  getSlider(ctx, id) {
+    return this.$axios.get(`/admin/sliders/${id}`)
+      .then(res => {
+        const data = res.data
+        ctx.commit('setSlider', data)
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
   getSliders(ctx, filter) {
     let query = [];
     const filters = Object.entries(filter)
-    let paged = false
     for (let i = 0; i < filters.length; i++) {
-      if (filters[i][1]) {
-        if (filters[i][0] === 'page') {
-          paged = true
-        }
+      if(filters[i][1]) {
         query.push(`${filters[i][0]}=${filters[i][1]}`)
       }
     }
-    return this.$axios.get(`/sliders?${query.join('&')}`)
+    return this.$axios.get(`/admin/sliders?${query.join('&')}`)
       .then(res => {
         const data = res.data
-        if (paged) {
-          ctx.commit('setSliders', data)
-        } else {
-          ctx.commit('setSlidersList', data.data)
-        }
+        ctx.commit('setSliders', data)
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
+  getAllSliders(ctx, filter) {
+    return this.$axios.get(`/admin/sliders`)
+      .then(res => {
         return Promise.resolve(res)
       })
       .catch(err => {
@@ -50,7 +61,7 @@ export const actions = {
       })
   },
   createSlider(ctx, data) {
-    return this.$axios.post(`/sliders`, data)
+    return this.$axios.post(`/admin/sliders`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -59,7 +70,7 @@ export const actions = {
       })
   },
   updateSlider(ctx, data) {
-    return this.$axios.put(`/sliders/${data.id}`, data)
+    return this.$axios.put(`/admin/sliders/${data.id}`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -68,7 +79,7 @@ export const actions = {
       })
   },
   removeSlider(ctx, id) {
-    return this.$axios.delete(`/sliders/${id}`)
+    return this.$axios.delete(`/admin/sliders/${id}`)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -81,8 +92,5 @@ export const actions = {
 export const getters = {
   getSliders(state) {
     return state.sliders
-  },
-  getList(state) {
-    return state.list
   },
 }

@@ -27,10 +27,21 @@ export const mutations = {
 
 export const actions = {
   getUser(ctx, id) {
-    return this.$axios.get(`/users/${id}`)
+    return this.$axios.get(`/admin/users/${id}`)
       .then(res => {
         const data = res.data
         ctx.commit('setUser', data)
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
+  getRoles(ctx,) {
+    return this.$axios.get(`/admin/roles`)
+      .then(res => {
+        const data = res.data
+        // ctx.commit('setUser', data)
         return Promise.resolve(res)
       })
       .catch(err => {
@@ -49,7 +60,7 @@ export const actions = {
         query.push(`${filters[i][0]}=${filters[i][1]}`)
       }
     }
-    return this.$axios.get(`/users?${query.join('&')}`)
+    return this.$axios.get(`/admin/users?${query.join('&')}`)
       .then(res => {
         const data = res.data
         if (paged) {
@@ -64,7 +75,7 @@ export const actions = {
       })
   },
   createUser(ctx, data) {
-    return this.$axios.post(`/users`, data)
+    return this.$axios.post(`/admin/users`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -73,7 +84,7 @@ export const actions = {
       })
   },
   updateUser(ctx, data) {
-    return this.$axios.put(`/users/${data.id}`, data)
+    return this.$axios.put(`/admin/users/${data.id}`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -82,7 +93,7 @@ export const actions = {
       })
   },
   removeUser(ctx, id) {
-    return this.$axios.delete(`/users/${id}`)
+    return this.$axios.delete(`/admin/users/${id}`)
       .then(res => {
         return Promise.resolve(res)
       })

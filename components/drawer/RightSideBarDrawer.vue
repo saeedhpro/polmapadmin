@@ -37,147 +37,17 @@
                     <img src="/main/account/account.svg" alt="">
                     <img src="/main/account/account-active.svg" class="active" alt="">
                   </div>
-                  <span class="link-text">کاربران</span>
+                  <span class="link-text" v-if="application">
+                    کاربران {{application.app_name}}
+                  </span>
+                  <span v-else>کاربران</span>
                 </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/orders">
-                  <div class="icon-box">
-                    <img src="/main/account/bag.svg" alt="">
-                    <img src="/main/account/bag-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">سفارشات</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/categories">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">دسته بندی ها</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/products">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">محصولات</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/attributes">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">ویژگی ها محصول</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/specials">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">فروش ویژه</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/sliders">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">اسلایدر اصلی</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/socials">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">شبکه های اجتماعی</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/coupons">
-                  <div class="icon-box">
-                    <img src="/main/account/box.svg" alt="">
-                    <img src="/main/account/box-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">تخفیفات</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/articles">
+                <nuxt-link v-if="application && application.app_id === 'beauty_map'" class="right-box-menu" to="/panel/skills">
                   <div class="icon-box">
                     <img src="/main/account/like.svg" alt="">
                     <img src="/main/account/like-active.svg" class="active" alt="">
                   </div>
-                  <span class="link-text">مقالات</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/comments">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">نظرات</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/questions">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">پرسش و پاسخ ها</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/requests">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">درخواست ها</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/contacts">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">ارتباط با ما</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/addresses">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">آدرس های انبار</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/cards">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">کارت های بانکی</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/skills">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">تخصص ها</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/brands">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">برند ها</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/customers">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">مشتری ها</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/services">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">خدمات</span>
-                </nuxt-link>
-                <nuxt-link class="right-box-menu" to="/panel/faq">
-                  <div class="icon-box">
-                    <img src="/main/account/like.svg" alt="">
-                    <img src="/main/account/like-active.svg" class="active" alt="">
-                  </div>
-                  <span class="link-text">سوالات متداول</span>
+                  <span class="link-text">تخصص های بیوتی مپ</span>
                 </nuxt-link>
                 <nuxt-link class="right-box-menu" to="/panel/settings">
                   <div class="icon-box">
@@ -231,6 +101,9 @@ export default {
     },
     loginUser() {
       return this.$store.getters['login/getUser']
+    },
+    application() {
+      return this.$store.getters['application/getApplication']
     }
   }
 }

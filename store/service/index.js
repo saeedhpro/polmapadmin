@@ -23,7 +23,7 @@ export const mutations = {
 
 export const actions = {
   getService(ctx, id) {
-    return this.$axios.get(`/services/${id}`)
+    return this.$axios.get(`/admin/services/${id}`)
       .then(res => {
         const data = res.data
         ctx.commit('setService', data)
@@ -41,7 +41,7 @@ export const actions = {
         query.push(`${filters[i][0]}=${filters[i][1]}`)
       }
     }
-    return this.$axios.get(`/services?${query.join('&')}`)
+    return this.$axios.get(`/admin/services?${query.join('&')}`)
       .then(res => {
         const data = res.data
         ctx.commit('setServices', data)
@@ -51,8 +51,17 @@ export const actions = {
         return Promise.reject(err)
       })
   },
+  getAllServices(ctx, filter) {
+    return this.$axios.get(`/admin/services`)
+      .then(res => {
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
   createService(ctx, data) {
-    return this.$axios.post(`/services`, data)
+    return this.$axios.post(`/admin/services`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -61,7 +70,7 @@ export const actions = {
       })
   },
   updateService(ctx, data) {
-    return this.$axios.put(`/services/${data.id}`, data)
+    return this.$axios.put(`/admin/services/${data.id}`, data)
       .then(res => {
         return Promise.resolve(res)
       })
@@ -70,7 +79,7 @@ export const actions = {
       })
   },
   removeService(ctx, id) {
-    return this.$axios.delete(`/services/${id}`)
+    return this.$axios.delete(`/admin/services/${id}`)
       .then(res => {
         return Promise.resolve(res)
       })

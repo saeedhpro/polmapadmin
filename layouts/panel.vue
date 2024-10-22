@@ -63,6 +63,13 @@
               </div>
               <span class="link-text">لیست برنامه ها</span>
             </nuxt-link>
+            <nuxt-link class="right-box-menu" to="/panel/courses">
+              <div class="icon-box">
+                <img src="/main/account/like.svg" alt="">
+                <img src="/main/account/like-active.svg" class="active" alt="">
+              </div>
+              <span class="link-text">آموزش های پول مپ</span>
+            </nuxt-link>
 <!--            <nuxt-link class="right-box-menu" to="/panel/sliders">-->
 <!--              <div class="icon-box">-->
 <!--                <img src="/main/account/like.svg" alt="">-->

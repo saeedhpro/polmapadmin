@@ -5,8 +5,9 @@
         <v-col
           cols="12"
           md="6"
+          v-for="(a, i) in applications" :key="i" @click="setApplication(a)"
         >
-          <div class="account-form" v-for="(a, i) in applications" :key="i" @click="setApplication(a)">
+          <div class="account-form">
             <div class="account-form-header" >
               <div class="account-form-right-box">
                 <img src="/main/account/account.svg" alt="">

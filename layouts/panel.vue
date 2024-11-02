@@ -33,7 +33,7 @@
                 <img src="/main/account/box.svg" alt="">
                 <img src="/main/account/box-active.svg" class="active" alt="">
               </div>
-              <span class="link-text">خدمات</span>
+              <span class="link-text">تخصص های بیوتی مپ</span>
             </nuxt-link>
             <nuxt-link class="right-box-menu" to="/panel/portfolios">
               <div class="icon-box">

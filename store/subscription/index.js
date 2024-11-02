@@ -71,6 +71,24 @@ export const actions = {
       .catch(err => {
         return Promise.reject(err)
       })
+  },
+  createSubscription(ctx, data) {
+    return this.$axios.post(`/admin/subscriptions`, data)
+      .then(res => {
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
+  deleteSubscription(ctx, id) {
+    return this.$axios.delete(`/admin/subscriptions/${id}`)
+      .then(res => {
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
   }
 }
 

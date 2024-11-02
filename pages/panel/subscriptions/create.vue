@@ -9,7 +9,7 @@
             <div class="account-form-header">
               <div class="account-form-right-box">
                 <img src="/main/account/account.svg" alt="">
-                <span class="account-form-title">{{ subscription.title }}</span>
+                <span class="account-form-title">ثبت اشتراک جدید</span>
               </div>
             </div>
             <v-divider/>
@@ -66,9 +66,9 @@
                         cols="12"
                       >
                         <div class="account-form-action-box">
-                          <button class="account-form-action main-btn" @click="updateSubscription">
+                          <button class="account-form-action main-btn" @click="createSubscription">
                             <loading v-if="loading"/>
-                            <span v-else>ویرایش</span>
+                            <span v-else>ثبت</span>
                           </button>
                         </div>
                       </v-col>
@@ -111,36 +111,13 @@ export default {
       },
     }
   },
-  mounted() {
-    this.getSubscription()
-  },
   methods: {
-    getSubscription() {
-      this.$store.dispatch('subscription/getSubscription', this.$route.params.id)
-        .then(res => {
-          const subscription = res.data.data
-          this.setSubscription(subscription)
-        })
-    },
-    setSubscription(subscription) {
-      this.subscription = {
-        id: subscription.id,
-        title: subscription.title,
-        period: subscription.period,
-        price: subscription.price,
-        rules: {
-          title: [val => (val || '').length > 0 || 'لطفا عنوان را وارد کنید'],
-          period: [val => (val || 0) > 0 || 'لطفا تعداد ماه را وارد کنید'],
-          price: [val => (val || 0) > 0 || 'لطفا قیمت را وارد کنید'],
-        }
-      }
-    },
-    updateSubscription() {
+    createSubscription() {
       this.loading = true
       const data = {
         ...this.subscription,
       }
-      this.$store.dispatch('subscription/updateSubscription', data)
+      this.$store.dispatch('subscription/createSubscription', data)
         .then(res => {
           this.$toast.success('با موفقیت ثبت شد')
           this.$router.push('/panel/subscriptions')

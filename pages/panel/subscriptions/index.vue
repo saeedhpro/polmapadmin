@@ -12,11 +12,11 @@
                 <span class="account-form-title">لیست اشتراک ها</span>
               </div>
               <div class="action-box">
-<!--                <nuxt-link-->
-<!--                  to="/panel/portfolios/create"-->
-<!--                >-->
-<!--                  <v-icon>mdi-plus</v-icon>-->
-<!--                </nuxt-link>-->
+                <nuxt-link
+                  to="/panel/subscriptions/create"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </nuxt-link>
               </div>
             </div>
             <v-divider/>
@@ -41,6 +41,12 @@
                         >
                           <v-icon>mdi-pencil-outline</v-icon>
                         </nuxt-link>
+                        <v-btn
+                          icon
+                          @click="openShowDelete(i)"
+                        >
+                          <v-icon color="#E85C2F">mdi-delete-outline</v-icon>
+                        </v-btn>
                       </div>
                     </td>
                   </tr>
@@ -54,15 +60,22 @@
         </v-col>
       </v-row>
     </v-container>
+    <show-delete-modal
+      :open="showDeleteSubscription"
+      :title="`اشتراک`"
+      @remove="removeSubscription"
+      @close="cancelDeleteSubscription"
+      v-if="subscription"
+    />
   </main>
 </template>
 
 <script>
 import DataTableComponent from "~/components/global/DataTableComponent";
-import ShowDeleteModal from "~/components/global/ShowDeleteModal";
+import ShowDeleteModal from "~/components/global/ShowDeleteModal.vue";
 export default {
   name: "index.vue",
-  components: {DataTableComponent},
+  components: {ShowDeleteModal, DataTableComponent},
   layout: "panel",
   data() {
     return {
@@ -91,6 +104,37 @@ export default {
     paginate(page = 1) {
       this.filter.page = page
       this.getSubscriptions()
+    },
+    openShowDelete(item) {
+      this.subscription = item
+      this.toggleShowDelete()
+    },
+    toggleShowDelete() {
+      this.showDeleteSubscription = !this.showDeleteSubscription
+    },
+    cancelDeleteSubscription() {
+      this.subscription = null
+      this.toggleShowDelete()
+    },
+    removeSubscription() {
+      this.$store.dispatch('subscription/deleteSubscription', this.subscription.id)
+        .then(res => {
+          this.item = null
+          this.toggleShowDelete()
+          this.$toast.success('با موفقیت انجام شد')
+        })
+        .catch(err => {
+          if(err.response) {
+            const errors = err.response.data.errors
+            const keys = Object.keys(err.response.data.errors)
+            for (let i = 0; i < keys.length; i++) {
+              this.$toast.error(errors[keys[i]][0])
+            }
+          }
+        })
+        .finally(() => {
+          this.paginate(1)
+        })
     },
   },
   computed: {

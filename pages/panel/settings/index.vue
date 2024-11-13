@@ -9,7 +9,7 @@
             <div class="account-form-header">
               <div class="account-form-right-box">
                 <img src="/main/account/account.svg" alt="">
-                <span class="account-form-title">تنظیمات دشت</span>
+                <span class="account-form-title">تنظیمات</span>
               </div>
             </div>
             <v-divider/>
@@ -20,41 +20,35 @@
                   md="6"
                 >
                   <custom-text-field-component
-                    v-model="form.api_key"
-                    :rules="form.rules.api_key"
-                    label="GUID"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <custom-text-area-component
-                    v-model="form.enemad"
-                    label="کد اینماد"
-                    :rows="4"
+                    v-model="form.first"
+                    label="درصد به سطح اول"
                   />
                 </v-col>
                 <v-col
                   cols="12"
                   md="6"
                 >
-                  <custom-text-area-component
-                    v-model="form.samandehi"
-                    label="کد ساماندهی"
-                    :rows="4"
+                  <custom-text-field-component
+                    v-model="form.second"
+                    label="درصد به سطح دوم"
                   />
                 </v-col>
                 <v-col
                   cols="12"
                   md="6"
                 >
-                  <custom-text-area-component
-                    v-model="form.etehadie"
-                    label="کد عضویت در اتحادیه"
-                    :rows="4"
+                  <custom-text-field-component
+                    v-model="form.third"
+                    label="درصد به سطح سوم"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <custom-text-field-component
+                    v-model="form.forth"
+                    label="درصد به سطح چهارم"
                   />
                 </v-col>
               </v-row>
@@ -92,14 +86,10 @@ export default {
     return {
       loading: false,
       form: {
-        api_key: '',
-        enemad: '',
-        samandehi: '',
-        etehadie: '',
-        refresh_token: '',
-        rules: {
-          api_key: [val => (val || '').length > 0 || 'لطفا کلید guid را وارد کنید'],
-        }
+        first: 0,
+        second: 0,
+        third: 0,
+        forth: 0,
       },
     }
   },

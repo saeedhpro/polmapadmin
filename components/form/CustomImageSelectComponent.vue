@@ -1,7 +1,7 @@
 <template>
   <div class="custom-image-select-component" @click="chooseImage" :style="{'width': width, 'height': height}">
     <input type="file" accept="image/*" hidden ref="image" @change="onFileChange">
-    <img :src="img" v-if="img">
+    <img alt="" :src="img" v-if="img">
     <div class="custom-image-select-content" v-else>
       <v-icon x-large>mdi-plus</v-icon>
     </div>
@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       img: this.thumbnail,
+      uploaded: false
     }
   },
   methods: {
@@ -52,11 +53,21 @@ export default {
           if(!this.slider) {
             this.img = res.data.url
           }
+          this.uploaded = true
           this.$emit('uploaded', res.data)
         })
         .catch((err) => {
           console.log(err)
         })
+    }
+  },
+  mounted() {
+  },
+  watch: {
+    'thumbnail'() {
+      if (!this.uploaded) {
+        this.img = this.thumbnail
+      }
     }
   }
 }

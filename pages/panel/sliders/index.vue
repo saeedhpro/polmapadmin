@@ -1,6 +1,6 @@
 <template>
   <main class="account account-page" :class="{'mini': mini}">
-    <v-container>
+    <v-container fluid>
       <v-row>
         <v-col
           cols="12"
@@ -9,65 +9,80 @@
             <div class="account-form-header">
               <div class="account-form-right-box">
                 <img src="/main/account/account.svg" alt="">
-                <span class="account-form-title">لیست پلن ها</span>
-              </div>
-              <div class="action-box">
-<!--                <nuxt-link-->
-<!--                  to="/panel/portfolios/create"-->
-<!--                >-->
-<!--                  <v-icon>mdi-plus</v-icon>-->
-<!--                </nuxt-link>-->
+                <span class="account-form-title">{{ slider.main_title }}</span>
               </div>
             </div>
             <v-divider/>
             <div class="account-form-content">
-              <data-table-component
-                :headers="headers"
-                :page="filter.page"
-                :last-page="plans.meta.last_page"
-                :total="plans.meta.total"
-                @paginate="paginate"
-              >
-                <template v-slot:body>
-                  <tr v-for="(i, n) in plans.data" :key="n">
-                    <td class="text-center">{{ (filter.page - 1) * 10 + n + 1 | toPersianNumber }}</td>
-                    <td class="text-center">{{ i.title ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.coins ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.portfolio_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.laddering_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.star_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.image_upload_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">
-                      <v-icon color="success" v-if="i.has_blue_tick">
-                        mdi-check-circle
-                      </v-icon>
-                      <v-icon color="error" v-else>
-                        mdi-close-circle
-                      </v-icon>
-                    </td>
-                    <td class="text-center dir-ltr">
-                      <v-icon color="success" v-if="i.has_discount">
-                        mdi-check-circle
-                      </v-icon>
-                      <v-icon color="error" v-else>
-                        mdi-close-circle
-                      </v-icon>
-                    </td>
-                    <td class="text-center">
-                      <div class="action-box">
-                        <nuxt-link
-                          :to="`/panel/plans/${i.id}`"
-                        >
-                          <v-icon>mdi-pencil-outline</v-icon>
-                        </nuxt-link>
-                      </div>
-                    </td>
-                  </tr>
-                </template>
-                <template v-slot:notfound>
-                  <div v-if="plans.meta.total === 0">اطلاعاتی یافت نشد</div>
-                </template>
-              </data-table-component>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="3"
+                >
+                  <custom-text-field-component
+                    v-model="slider.main_title"
+                    label="عنوان*"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="3"
+                >
+                  <custom-text-field-component
+                    v-model="slider.sub_title"
+                    label="زیر عنوان*"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="3"
+                >
+                  <custom-text-field-component
+                    v-model="slider.link_title"
+                    label="عنوان دکمه*"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="3"
+                >
+                  <custom-text-field-component
+                    v-model="slider.link_url"
+                    label="لینک دکمه*"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                >
+                  <custom-text-area-component
+                    v-model="slider.description"
+                    label="توضیحات*"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                >
+                  <div class="placeholder">تصویر اسلاید</div>
+                  <custom-image-select-component
+                    @uploaded="uploaded"
+                    :width="'100%'"
+                    :height="'50%'"
+                    :thumbnail="slider.image"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                >
+                  <div class="account-form-action-box">
+                    <button class="account-form-action main-btn" @click="updateSlider">
+                      <loading v-if="loading"/>
+                      <span v-else>ویرایش</span>
+                    </button>
+                  </div>
+                </v-col>
+              </v-row>
             </div>
           </div>
         </v-col>
@@ -77,52 +92,88 @@
 </template>
 
 <script>
-import DataTableComponent from "~/components/global/DataTableComponent";
-import ShowDeleteModal from "~/components/global/ShowDeleteModal";
+import CustomTextFieldComponent from "~/components/form/CustomTextFieldComponent";
+import CustomAutoCompleteComponent from "~/components/form/CustomAutoCompleteComponent";
+import CustomDatePicker from "~/components/form/CustomDatePicker";
+import CustomToggleComponent from "~/components/form/CustomToggleComponent.vue";
+import CustomTextAreaComponent from "~/components/form/CustomTextAreaComponent.vue";
+import CustomImageSelectComponent from "~/components/form/CustomImageSelectComponent.vue";
+
 export default {
-  name: "index.vue",
-  components: {DataTableComponent},
+  name: "index",
+  components: {
+    CustomImageSelectComponent,
+    CustomTextAreaComponent,
+    CustomToggleComponent, CustomDatePicker, CustomAutoCompleteComponent, CustomTextFieldComponent},
   layout: "panel",
   data() {
     return {
-      headers: [
-        '',
-        'عنوان',
-        'تعداد سکه',
-        'تعداد نمونه کار',
-        'تعداد نردبان',
-        'تعداد ستاره',
-        'محدودیت آپلود عکس',
-        'دارای تیک آبی',
-        'دارای تخفیف',
-        'عملیات',
-      ],
-      filter: {
-        page: 1,
-        q: '',
+      loading: false,
+      tab: 0,
+      slider: {
+        id: 0,
+        image: '',
+        main_title: '',
+        sub_title: '',
+        description: '',
+        link_url: '',
+        link_title: '',
       },
-      plan: null,
-      showDeletePlan: false,
     }
   },
   mounted() {
-    this.paginate()
+    this.getSlider()
   },
   methods: {
-    getPlans() {
-      this.$store.dispatch('plan/getAllPlans', this.filter)
+    getSlider() {
+      this.$store.dispatch('slider/getSliders', {})
+        .then(res => {
+          const slider = res.data.data
+          this.setSlider(slider)
+        })
     },
-    paginate(page = 1) {
-      this.filter.page = page
-      this.getPlans()
+    setSlider(slider) {
+      this.slider = {
+        id: slider.id,
+        image: slider.image,
+        main_title: slider.main_title,
+        sub_title: slider.sub_title,
+        description: slider.description,
+        link_url: slider.link_url,
+        link_title: slider.link_title,
+      }
+    },
+    updateSlider() {
+      this.loading = true
+      const data = {
+        ...this.slider,
+      }
+      this.$store.dispatch('slider/updateSlider', data)
+        .then(res => {
+          this.$toast.success('با موفقیت ثبت شد')
+          this.$router.push('/panel/sliders')
+        })
+        .catch(err => {
+          if(err.response) {
+            const errors = err.response.data.errors
+            for (const e in errors) {
+              this.$toast.error(errors[e][0])
+            }
+          }
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
+        })
+    },
+    uploaded(res) {
+      this.slider.image = res.url
     },
   },
   computed: {
     mini() {
       return this.$vuetify.breakpoint.mdAndDown
-    },
-    plans() {
-      return this.$store.getters['plan/getPlans']
     }
   }
 }

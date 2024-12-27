@@ -96,6 +96,7 @@ export default {
 	  port: 5001,
   },
   env: {
-    ckeditorBaseURL: process.env.CKEDITOR_BASE_URL || ''
+    ckeditorBaseURL: 'https://api.beautymap.ir/api/upload'
+    // ckeditorBaseURL: 'http://localhost:8000/api/upload'
   }
 }

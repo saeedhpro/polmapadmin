@@ -11,13 +11,13 @@
                 <img src="/main/account/account.svg" alt="">
                 <span class="account-form-title">لیست اشتراک ها</span>
               </div>
-              <div class="action-box">
-                <nuxt-link
-                  to="/panel/subscriptions/create"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </nuxt-link>
-              </div>
+<!--              <div class="action-box">-->
+<!--                <nuxt-link-->
+<!--                  to="/panel/subscriptions/create"-->
+<!--                >-->
+<!--                  <v-icon>mdi-plus</v-icon>-->
+<!--                </nuxt-link>-->
+<!--              </div>-->
             </div>
             <v-divider/>
             <div class="account-form-content">
@@ -33,7 +33,7 @@
                     <td class="text-center">{{ (filter.page - 1) * 10 + n + 1 | toPersianNumber }}</td>
                     <td class="text-center">{{ i.title ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">{{ i.period ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.price ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center dir-ltr">{{ parseFloat(i.price) ?? '-' | toPersianNumber }}</td>
                     <td class="text-center">
                       <div class="action-box">
                         <nuxt-link
@@ -41,12 +41,12 @@
                         >
                           <v-icon>mdi-pencil-outline</v-icon>
                         </nuxt-link>
-                        <v-btn
-                          icon
-                          @click="openShowDelete(i)"
-                        >
-                          <v-icon color="#E85C2F">mdi-delete-outline</v-icon>
-                        </v-btn>
+<!--                        <v-btn-->
+<!--                          icon-->
+<!--                          @click="openShowDelete(i)"-->
+<!--                        >-->
+<!--                          <v-icon color="#E85C2F">mdi-delete-outline</v-icon>-->
+<!--                        </v-btn>-->
                       </div>
                     </td>
                   </tr>

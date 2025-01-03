@@ -21,6 +21,42 @@
             </div>
             <v-divider/>
             <div class="account-form-content">
+              <div class="">
+                <v-form>
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="4"
+                        md="2"
+                      >
+                        <custom-auto-complete-component
+                          v-model="filter.order"
+                          :label="'ترتیب براساس'"
+                          :items="allOrders"
+                          :returnObject="false"
+                          :item-text="'name'"
+                          :item-value="'id'"
+                          @change="() => paginate(1)"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="4"
+                        md="2"
+                      >
+                        <custom-auto-complete-component
+                          v-model="filter.sort"
+                          :label="'ترتیب نمایش'"
+                          :items="allSorts"
+                          :returnObject="false"
+                          :item-text="'name'"
+                          :item-value="'id'"
+                          @change="() => paginate(1)"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </div>
               <data-table-component
                 :headers="headers"
                 :page="filter.page"
@@ -71,9 +107,10 @@
 <script>
 import DataTableComponent from "~/components/global/DataTableComponent";
 import ShowDeleteModal from "~/components/global/ShowDeleteModal.vue";
+import CustomAutoCompleteComponent from "~/components/form/CustomAutoCompleteComponent.vue";
 export default {
   name: "index.vue",
-  components: {ShowDeleteModal, DataTableComponent},
+  components: {CustomAutoCompleteComponent, ShowDeleteModal, DataTableComponent},
   layout: "panel",
   data() {
     return {
@@ -86,7 +123,29 @@ export default {
       filter: {
         page: 1,
         q: '',
+        order: 'created_at',
+        sort: 'desc'
       },
+      allOrders: [
+        {
+          id: 'created_at',
+          name: 'تاریخ ثبت'
+        },
+        {
+          id: 'title',
+          name: 'عنوان'
+        }
+      ],
+      allSorts: [
+        {
+          id: 'desc',
+          name: 'نزولی'
+        },
+        {
+          id: 'asc',
+          name: 'صعودی'
+        }
+      ],
       course: null,
       showDeleteCourse: false,
     }
@@ -121,7 +180,7 @@ export default {
     cancelDeleteCourse() {
       this.course = null
       this.toggleShowDelete()
-    },
+    }
   },
   computed: {
     mini() {
@@ -130,7 +189,7 @@ export default {
     courses() {
       return this.$store.getters['course/getCourses']
     }
-  }
+  },
 }
 </script>
 

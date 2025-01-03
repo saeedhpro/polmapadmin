@@ -111,6 +111,9 @@ export default {
       },
     }
   },
+  mounted() {
+    this.$router.push('/panel/subscriptions')
+  },
   methods: {
     createSubscription() {
       this.loading = true

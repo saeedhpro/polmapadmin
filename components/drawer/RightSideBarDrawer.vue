@@ -78,6 +78,13 @@
                   </div>
                   <span class="link-text">پلن ها</span>
                 </nuxt-link>
+                <nuxt-link class="right-box-menu" to="/panel/coins">
+                  <div class="icon-box">
+                    <img src="/main/account/like.svg" alt="">
+                    <img src="/main/account/like-active.svg" class="active" alt="">
+                  </div>
+                  <span class="link-text">خرید سکه</span>
+                </nuxt-link>
                 <nuxt-link class="right-box-menu" to="/panel/subscriptions">
                   <div class="icon-box">
                     <img src="/main/account/like.svg" alt="">

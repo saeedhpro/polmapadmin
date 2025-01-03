@@ -64,11 +64,6 @@ export default {
       }
     },
   },
-  watch: {
-    val() {
-      console.log(parseFloat(this.val), "val")
-    }
-  }
 }
 </script>
 

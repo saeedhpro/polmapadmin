@@ -19,6 +19,7 @@
     :return-object="returnObject"
     :item-text="itemText"
     :item-value="itemValue"
+    @change="onChange"
   ></v-autocomplete>
 </template>
 
@@ -87,6 +88,9 @@ export default {
   methods: {
     toggleIsPassword() {
       this.isPassword = !this.isPassword
+    },
+    onChange() {
+      this.$emit('change', this.value)
     }
   },
   computed: {

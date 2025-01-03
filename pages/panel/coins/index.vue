@@ -9,7 +9,7 @@
             <div class="account-form-header">
               <div class="account-form-right-box">
                 <img src="/main/account/account.svg" alt="">
-                <span class="account-form-title">لیست پلن ها</span>
+                <span class="account-form-title">لیست خرید سکه</span>
               </div>
               <div class="action-box">
 <!--                <nuxt-link-->
@@ -24,40 +24,20 @@
               <data-table-component
                 :headers="headers"
                 :page="filter.page"
-                :last-page="plans.meta.last_page"
-                :total="plans.meta.total"
+                :last-page="options.meta.last_page"
+                :total="options.meta.total"
                 @paginate="paginate"
               >
                 <template v-slot:body>
-                  <tr v-for="(i, n) in plans.data" :key="n">
+                  <tr v-for="(i, n) in options.data" :key="n">
                     <td class="text-center">{{ (filter.page - 1) * 10 + n + 1 | toPersianNumber }}</td>
-                    <td class="text-center">{{ i.title ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">{{ i.coins ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.portfolio_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.laddering_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.star_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">{{ i.image_upload_count ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center dir-ltr">
-                      <v-icon color="success" v-if="i.has_blue_tick">
-                        mdi-check-circle
-                      </v-icon>
-                      <v-icon color="error" v-else>
-                        mdi-close-circle
-                      </v-icon>
-                    </td>
-                    <td class="text-center dir-ltr">
-                      <v-icon color="success" v-if="i.has_discount">
-                        mdi-check-circle
-                      </v-icon>
-                      <v-icon color="error" v-else>
-                        mdi-close-circle
-                      </v-icon>
-                    </td>
-                    <td class="text-center dir-ltr">{{ i.discount_number ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center dir-ltr">{{ i.gift ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center dir-ltr">{{ i.price ?? '-' | toPersianNumber }}</td>
                     <td class="text-center">
                       <div class="action-box">
                         <nuxt-link
-                          :to="`/panel/plans/${i.id}`"
+                          :to="`/panel/coins/${i.id}`"
                         >
                           <v-icon>mdi-pencil-outline</v-icon>
                         </nuxt-link>
@@ -66,7 +46,7 @@
                   </tr>
                 </template>
                 <template v-slot:notfound>
-                  <div v-if="plans.meta.total === 0">اطلاعاتی یافت نشد</div>
+                  <div v-if="options.meta.total === 0">اطلاعاتی یافت نشد</div>
                 </template>
               </data-table-component>
             </div>
@@ -88,43 +68,37 @@ export default {
     return {
       headers: [
         '',
-        'عنوان',
         'تعداد سکه',
-        'تعداد نمونه کار',
-        'تعداد نردبان',
-        'تعداد ستاره',
-        'محدودیت آپلود عکس',
-        'دارای تیک آبی',
-        'دارای تخفیف',
-        'درصد تخفیف',
+        'تعداد سکه هدیه',
+        'قیمت',
         'عملیات',
       ],
       filter: {
         page: 1,
         q: '',
       },
-      plan: null,
-      showDeletePlan: false,
+      option: null,
+      showDeleteOption: false,
     }
   },
   mounted() {
     this.paginate()
   },
   methods: {
-    getPlans() {
-      this.$store.dispatch('plan/getAllPlans', this.filter)
+    getOptions() {
+      this.$store.dispatch('options/getAllOptions', this.filter)
     },
     paginate(page = 1) {
       this.filter.page = page
-      this.getPlans()
+      this.getOptions()
     },
   },
   computed: {
     mini() {
       return this.$vuetify.breakpoint.mdAndDown
     },
-    plans() {
-      return this.$store.getters['plan/getPlans']
+    options() {
+      return this.$store.getters['options/getOptions']
     }
   }
 }

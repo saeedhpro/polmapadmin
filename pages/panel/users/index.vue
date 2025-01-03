@@ -21,12 +21,59 @@
             </div>
             <v-divider/>
             <div class="account-form-content">
+              <div class="">
+                <v-form>
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        md="7"
+                      >
+                        <custom-text-field-component
+                          v-model="filter.q"
+                          :label="'جستجو'"
+                          @input="doFilter"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="4"
+                        md="3"
+                      >
+                        <custom-auto-complete-component
+                          v-model="filter.order"
+                          :label="'ترتیب براساس'"
+                          :items="allOrders"
+                          :returnObject="false"
+                          :item-text="'name'"
+                          :item-value="'id'"
+                          @change="() => paginate(1)"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="4"
+                        md="2"
+                      >
+                        <custom-auto-complete-component
+                          v-model="filter.sort"
+                          :label="'ترتیب نمایش'"
+                          :items="allSorts"
+                          :returnObject="false"
+                          :item-text="'name'"
+                          :item-value="'id'"
+                          @change="() => paginate(1)"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </div>
+
               <data-table-component
                 :headers="headers"
                 :page="filter.page"
                 :last-page="users.meta.last_page"
                 :total="users.meta.total"
-                @paginate="paginate"
+                @paginate="() => paginate(1)"
               >
                 <template v-slot:body>
                   <tr v-for="(i, n) in users.data" :key="n">
@@ -34,7 +81,6 @@
                     <td class="text-center">{{ i.full_name ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">{{ i.email ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">{{ i.phone_number ?? '-' | toPersianNumber }}</td>
-                    <td class="text-center">{{ i.role ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">
                       {{ i.birth_date ? $moment(i.birth_date).format("jYYYY/jMM/jDD") : '-' | toPersianNumber }}
                     </td>
@@ -82,9 +128,13 @@
 <script>
 import DataTableComponent from "~/components/global/DataTableComponent";
 import ShowDeleteModal from "~/components/global/ShowDeleteModal";
+import CustomAutoCompleteComponent from "~/components/form/CustomAutoCompleteComponent.vue";
+import CustomTextFieldComponent from "~/components/form/CustomTextFieldComponent.vue";
+import { debounce } from 'lodash';
+
 export default {
   name: "index.vue",
-  components: {ShowDeleteModal, DataTableComponent},
+  components: {CustomTextFieldComponent, CustomAutoCompleteComponent, ShowDeleteModal, DataTableComponent},
   layout: "panel",
   data() {
     return {
@@ -93,7 +143,6 @@ export default {
         'نام و نام خانوادگی',
         'ایمیل',
         'شماره تماس',
-        'نقش',
         'تاریخ تولد',
         'تعداد نمونه کار',
         'عملیات',
@@ -102,9 +151,32 @@ export default {
         page: 1,
         q: '',
         role_id: '',
+        order: 'created_at',
+        sort: 'desc'
       },
       user: null,
       showDeleteUser: false,
+
+      allOrders: [
+        {
+          id: 'created_at',
+          name: 'تاریخ ثبت نام'
+        },
+        {
+          id: 'full_name',
+          name: 'نام و نام خانواگی'
+        }
+      ],
+      allSorts: [
+        {
+          id: 'desc',
+          name: 'نزولی'
+        },
+        {
+          id: 'asc',
+          name: 'صعودی'
+        }
+      ],
     }
   },
   mounted() {
@@ -143,6 +215,9 @@ export default {
           }
         })
     },
+    doFilter: debounce(function() {
+      this.paginate(1)
+    }, 1000)
   },
   computed: {
     mini() {

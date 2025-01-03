@@ -1,6 +1,6 @@
 <template>
-  <label for="toggle_button" class="custom-toggle-box" :class="{'active': value}">
-    <input type="checkbox" id="toggle_button" v-model="toggle" hidden>
+  <label :for="randomId" class="custom-toggle-box" :class="{'active': value}">
+    <input type="checkbox" :id="randomId" v-model="toggle" hidden>
     <span class="circle"></span>
   </label>
 </template>
@@ -22,6 +22,9 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    randomId() {
+      return Math.random()
     }
   }
 }

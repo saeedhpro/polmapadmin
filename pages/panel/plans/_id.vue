@@ -115,6 +115,17 @@
                           />
                         </div>
                       </v-col>
+                      <v-col
+                        cols="12"
+                        md="3"
+                        v-if="plan.has_discount"
+                      >
+                        <custom-text-field-component
+                          v-model="plan.discount_number"
+                          label="درصد تخغیف"
+                          type="number"
+                        />
+                      </v-col>
                     </v-row>
                     <v-row>
                       <v-col
@@ -161,6 +172,8 @@ export default {
         laddering_count: 0,
         star_count: 0,
         image_upload_count: 0,
+        discount_number: 0,
+        has_blue_tick: false,
         has_discount: false,
         rules: {
           title: [val => (val || '').length > 0 || 'لطفا عنوان را وارد کنید'],
@@ -190,6 +203,7 @@ export default {
         image_upload_count: plan.image_upload_count,
         has_discount: plan.has_discount,
         has_blue_tick: plan.has_blue_tick,
+        discount_number: plan.discount_number,
         rules: {
           title: [val => (val || '').length > 0 || 'لطفا عنوان را وارد کنید'],
         }

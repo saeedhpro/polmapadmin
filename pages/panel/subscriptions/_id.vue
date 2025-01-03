@@ -36,17 +36,7 @@
                           v-model="subscription.title"
                           :rules="subscription.rules.title"
                           label="عنوان*"
-                        />
-                      </v-col>
-                      <v-col
-                        cols="12"
-                        md="3"
-                      >
-                        <custom-text-field-component
-                          v-model="subscription.period"
-                          :rules="subscription.rules.period"
-                          label="تعداد ماه"
-                          type="number"
+                          disabled
                         />
                       </v-col>
                       <v-col
@@ -57,7 +47,8 @@
                           v-model="subscription.price"
                           :rules="subscription.rules.price"
                           label="قیمت"
-                          type="number"
+                          type="string"
+                          inputmode="decimal"
                         />
                       </v-col>
                     </v-row>
@@ -127,7 +118,7 @@ export default {
         id: subscription.id,
         title: subscription.title,
         period: subscription.period,
-        price: subscription.price,
+        price: parseFloat(subscription.price),
         rules: {
           title: [val => (val || '').length > 0 || 'لطفا عنوان را وارد کنید'],
           period: [val => (val || 0) > 0 || 'لطفا تعداد ماه را وارد کنید'],
@@ -139,6 +130,7 @@ export default {
       this.loading = true
       const data = {
         ...this.subscription,
+        price: parseFloat(this.subscription.price)
       }
       this.$store.dispatch('subscription/updateSubscription', data)
         .then(res => {

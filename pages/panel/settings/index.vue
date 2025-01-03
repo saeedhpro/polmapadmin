@@ -20,6 +20,15 @@
                   md="6"
                 >
                   <custom-text-field-component
+                    v-model="form.own"
+                    label="درصد به خود شخص"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <custom-text-field-component
                     v-model="form.first"
                     label="درصد به سطح اول"
                   />
@@ -86,6 +95,7 @@ export default {
     return {
       loading: false,
       form: {
+        own: 0,
         first: 0,
         second: 0,
         third: 0,
@@ -100,17 +110,21 @@ export default {
     getSettings() {
       this.$store.dispatch('settings/getSettings')
           .then(res => {
-            const data = res.data.data
-            this.form.api_key = data.api_key
-            this.form.enemad = data.enemad
-            this.form.samandehi = data.samandehi
-            this.form.etehadie = data.etehadie
-            this.form.access_token = data.access_token
-            this.form.refresh_token = data.refresh_token
+            const data = res.data
+            this.form.own = data.own
+            this.form.first = data.first
+            this.form.second = data.second
+            this.form.third = data.third
+            this.form.forth = data.forth
           })
     },
     update() {
       this.loading = true
+      if (this.all > 100) {
+        this.$toast.error("مجموع درصد ها نمی تواند بیشتر از 100 باشد")
+        this.loading = false
+        return
+      }
       this.$store.dispatch('settings/updateSettings', this.form)
         .then(() => {
           // this.$router.go(-1)
@@ -132,6 +146,13 @@ export default {
   computed: {
     mini() {
       return this.$vuetify.breakpoint.mdAndDown
+    },
+    all() {
+      return this.form.own +
+        this.form.first +
+        this.form.second +
+        this.form.third +
+        this.form.forth;
     },
   }
 }

@@ -36,7 +36,7 @@
                         />
                       </v-col>
                       <v-col
-                        cols="4"
+                        cols="6"
                         md="3"
                       >
                         <custom-auto-complete-component
@@ -50,7 +50,7 @@
                         />
                       </v-col>
                       <v-col
-                        cols="4"
+                        cols="6"
                         md="2"
                       >
                         <custom-auto-complete-component

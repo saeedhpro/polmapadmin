@@ -61,7 +61,7 @@
                           name="role"
                           :returnObject="true"
                           :item-text="'name'"
-                          :item-value="'id'"
+                          :item-value="'name'"
                           :multiple="true"
                         />
                       </v-col>
@@ -93,6 +93,15 @@
                         <custom-text-field-component
                           v-model="user.national_code"
                           label="کد ملی"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        md="4"
+                      >
+                        <custom-text-field-component
+                          v-model="user.coins"
+                          label="سکه"
                         />
                       </v-col>
                     </v-row>
@@ -135,6 +144,7 @@ export default {
       tab: 0,
       user: {
         id: 0,
+        coins: 0,
         full_name: '',
         email: '',
         phone_number: '',
@@ -167,7 +177,7 @@ export default {
     getUser() {
       this.$store.dispatch('user/getUser', this.$route.params.id)
         .then(res => {
-          const user = res.data
+          const user = res.data.data
           this.setUser(user)
         })
     },
@@ -178,15 +188,22 @@ export default {
         })
     },
     setUser(user) {
+      const roles = user.roles.map(function (i) {
+        return {
+          id: i,
+          name: i,
+        }
+      })
       this.user = {
         id: user.id,
+        coins: user.coins,
         full_name: user.full_name,
         email: user.email,
         phone_number: user.phone_number,
         password: '',
         birth_date: user.birth_date,
         national_code: user.national_code,
-        roles: user.roles,
+        roles: roles,
         rules: {
           email: [val => (val || '').length > 0 || 'لطفا پست الکترونیک کاربر را وارد کنید'],
         }

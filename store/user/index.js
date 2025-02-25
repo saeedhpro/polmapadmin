@@ -40,7 +40,6 @@ export const actions = {
   getRoles(ctx,) {
     return this.$axios.get(`/admin/roles`)
       .then(res => {
-        const data = res.data
         // ctx.commit('setUser', data)
         return Promise.resolve(res)
       })

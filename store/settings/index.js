@@ -30,6 +30,15 @@ export const actions = {
         return Promise.reject(err)
       })
   },
+  updateRules(ctx, data) {
+    return this.$axios.put(`/rule`, data)
+      .then(res => {
+        return Promise.resolve(res)
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  },
 }
 
 export const getters = {

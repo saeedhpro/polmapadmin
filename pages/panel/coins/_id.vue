@@ -45,6 +45,16 @@
                       type="number"
                     />
                   </v-col>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <custom-price-field-component
+                      v-model="option.discount_price"
+                      label="قیمت با تخفیف"
+                      type="number"
+                    />
+                  </v-col>
                 </v-row>
                 <v-row>
                   <v-col
@@ -88,6 +98,7 @@ export default {
         coins: 0,
         gift: 0,
         price: 0,
+        discount_price: 0,
       },
     }
   },
@@ -108,6 +119,7 @@ export default {
         coins: option.coins,
         gift: option.gift,
         price: option.price,
+        discount_price: option.discount_price,
       }
     },
     updateOption() {

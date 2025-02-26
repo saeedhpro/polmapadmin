@@ -66,7 +66,7 @@ export default {
   computed: {
     val: {
       get() {
-        if (this.type == 'number') {
+        if (this.type === 'number') {
           return parseFloat(this.value)
         }
         return this.value

@@ -34,6 +34,7 @@
                     <td class="text-center dir-ltr">{{ i.coins ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">{{ i.gift ?? '-' | toPersianNumber }}</td>
                     <td class="text-center dir-ltr">{{ i.price ?? '-' | toPersianNumber }}</td>
+                    <td class="text-center dir-ltr">{{ i.discount_price ?? '-' | toPersianNumber }}</td>
                     <td class="text-center">
                       <div class="action-box">
                         <nuxt-link
@@ -71,6 +72,7 @@ export default {
         'تعداد سکه',
         'تعداد سکه هدیه',
         'قیمت',
+        'قیمت با تخفیف',
         'عملیات',
       ],
       filter: {

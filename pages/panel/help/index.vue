@@ -17,12 +17,11 @@
               <v-row>
                 <v-col
                   cols="12"
-                  md="6"
                 >
-                  <custom-text-area-component
-                    v-if="!loading"
+                  <editor-component
+                    placeholder="راهنما"
                     v-model="form.help"
-                    label="راهنما"
+                    v-if="!loading"
                   />
                 </v-col>
               </v-row>

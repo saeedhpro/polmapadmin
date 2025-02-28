@@ -127,6 +127,13 @@
                   </div>
                   <span class="link-text">قوانین و مقررات</span>
                 </nuxt-link>
+                <nuxt-link class="right-box-menu" to="/panel/help">
+                  <div class="icon-box">
+                    <img src="/main/account/like.svg" alt="">
+                    <img src="/main/account/like-active.svg" class="active" alt="">
+                  </div>
+                  <span class="link-text">راهنما</span>
+                </nuxt-link>
                 <nuxt-link class="right-box-menu" to="/panel/settings">
                   <div class="icon-box">
                     <img src="/main/account/like.svg" alt="">

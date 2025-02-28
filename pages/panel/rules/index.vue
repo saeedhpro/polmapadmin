@@ -19,10 +19,10 @@
                   cols="12"
                   md="6"
                 >
-                  <custom-text-area-component
-                    v-if="!loading"
+                  <editor-component
+                    placeholder="قوانین"
                     v-model="form.rule"
-                    label="قوانین"
+                    v-if="!loading"
                   />
                 </v-col>
               </v-row>

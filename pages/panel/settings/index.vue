@@ -148,11 +148,11 @@ export default {
       return this.$vuetify.breakpoint.mdAndDown
     },
     all() {
-      return this.form.own +
-        this.form.first +
-        this.form.second +
-        this.form.third +
-        this.form.forth;
+      return parseFloat(this.form.own) +
+        parseFloat(this.form.first) +
+        parseFloat(this.form.second) +
+        parseFloat(this.form.third) +
+        parseFloat(this.form.forth);
     },
   }
 }

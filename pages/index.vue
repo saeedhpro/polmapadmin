@@ -88,6 +88,7 @@ export default {
               this.$toast.error(errors[keys[i]][0])
             }
           }
+          this.loading = false
         })
         .finally(() => this.loading = false)
     },

@@ -64,6 +64,19 @@
               <v-row>
                 <v-col
                   cols="12"
+                  md="6"
+                >
+                  <div class="d-flex flex-row justify-space-between mt-6">
+                    <div class="placeholder">فعال سازی قفل پنل</div>
+                    <custom-toggle-component
+                      v-model="form.lock_all"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
                 >
                   <div class="account-form-action-box">
                     <button class="account-form-action main-btn" @click="update">
@@ -86,10 +99,11 @@
 <script>
 import CustomTextFieldComponent from "~/components/form/CustomTextFieldComponent";
 import CustomTextAreaComponent from "~/components/form/CustomTextAreaComponent.vue";
+import CustomToggleComponent from "~/components/form/CustomToggleComponent.vue";
 
 export default {
   name: "index.vue",
-  components: {CustomTextAreaComponent, CustomTextFieldComponent},
+  components: {CustomToggleComponent, CustomTextAreaComponent, CustomTextFieldComponent},
   layout: "panel",
   data() {
     return {
@@ -100,6 +114,7 @@ export default {
         second: 0,
         third: 0,
         forth: 0,
+        lock_all: false,
       },
     }
   },
@@ -116,6 +131,7 @@ export default {
             this.form.second = data.second
             this.form.third = data.third
             this.form.forth = data.forth
+            this.form.lock_all = data.lock_all
           })
     },
     update() {
